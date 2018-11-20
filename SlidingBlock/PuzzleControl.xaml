@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="SlidingPuzzle.PuzzleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:SlidingPuzzle"
+             mc:Ignorable="d" Background="{x:Null}" d:DesignHeight="160" d:DesignWidth="198">
+    <UserControl.Resources>
+        <my:IntToBrushConverter x:Key="brushConverter"/>
+    </UserControl.Resources>
+    <Canvas Name="cvsRoot">
+        <ItemsControl Name="itcView" IsTabStop="False">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <my:BlockControl CellX="{Binding CellX}" CellY="{Binding CellY}" Tag="{Binding BlockID}" Foreground="{Binding BlockID, Converter={StaticResource brushConverter}}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Canvas>
+            <Rectangle Stroke="DarkOrange" StrokeDashArray="1,2" Width="60" Height="20" Name="rctTarget" StrokeThickness="4" IsHitTestVisible="False" Panel.ZIndex="500" />
+        </Canvas>
+    </Canvas>
+</UserControl>

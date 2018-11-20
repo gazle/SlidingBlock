@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SlidingPuzzle.BlockControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:SlidingPuzzle"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <my:CellToCanvasConverter x:Key="converter"/>
+        <my:IntToBrushConverter x:Key="brushConverter"/>
+    </UserControl.Resources>
+        <ItemsControl Name="itcView" ItemsSource="{Binding Blocks, Path=BlockType.SubBlocks}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <!-- Position the rectangles within the BlockControl Canvas -->
+                    <Setter Property="Canvas.Left">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource converter}">
+                                <MultiBinding.Bindings>
+                                    <Binding Path="X"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType=my:PuzzleControl}" Path="RWidth"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Canvas.Top">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource converter}">
+                                <MultiBinding.Bindings>
+                                    <Binding Path="Y"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType=my:PuzzleControl}" Path="RHeight"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Fill="{Binding RelativeSource={RelativeSource AncestorType=my:BlockControl}, Path=Foreground}" Width="{Binding RelativeSource={RelativeSource AncestorType=my:PuzzleControl}, Path=RWidth}"
+                               Height="{Binding RelativeSource={RelativeSource AncestorType=my:PuzzleControl}, Path=RHeight}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+</UserControl>
